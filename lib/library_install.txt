@@ -1,0 +1,12 @@
+The libraries I have used are: 
+1) Requests
+
+
+To install this library please follow the steps:
+1) Requests
+	Use the following command on terminal
+		pip install requests
+
+
+
+
