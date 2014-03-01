@@ -1,0 +1,20 @@
+I propose an alternative way to the solution that I have implemented:
+
+Pseudocode:
+
+consider that consumer wants N #items having X dollar amount
+
+1)After parsing the json response, filter out the items which have cost greater than X.
+2) Divide all the items whose cost is less than the X into N groups such as: 
+         Group 1:  0 < cost of item <= X/N
+         Group 2:  X/N < cost of item <= 2X/N
+                                 :
+                                 :
+         Group N-1:  (N-1)X/N < cost of item <= X
+2) For selecting items use rules:
+         a) All combinations of N from all the items in group 1 are valid cases
+         b) After selecting an item, the rest of the items must be selected from group 1 to group having max limit as X- (cost of items) 
+
+
+
+This algorithm reduces the time complexity of making all possible combinations. Thus the time complexity of checking cost of each of these combination is also reduced. 
