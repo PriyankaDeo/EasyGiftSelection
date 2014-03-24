@@ -35,39 +35,45 @@ def perform_operation(pdId, prc, url):		#Function to store required items info
 		url_data[pdId] = url.replace("\\", "")	#Urls of the required items
 
 
-try:
-	for cat in category:
-		url = 'http://api.zappos.com/Search?key=' + KEY + '&term=' + cat
-		response = requests.get(url)		#make API call
-		d1 = json.loads(response.text)
-		get_items(d1, "productId")
+def main():
+    	try:
+		for cat in category:
+			url = 'http://api.zappos.com/Search?key=' + KEY + '&term=' + cat
+			response = requests.get(url)		#make API call
+			d1 = json.loads(response.text)
+			get_items(d1, "productId")
 
-	sorted_data = sorted(filtered_data, key = filtered_data.get)	#sort items on price
-	list_items = []
-	for subset in itertools.combinations(sorted_data, cnt):		#all possible cnt number of combinations of items
+		sorted_data = sorted(filtered_data, key = filtered_data.get)	#sort items on price
+		list_items = []
+		for subset in itertools.combinations(sorted_data, cnt):		#all possible cnt number of combinations of items
 		#print subset
-		total_items = 0
-		for s in subset:
-			vals = filtered_data[s]
-			total_items += vals
+			total_items = 0
+			for s in subset:
+				vals = filtered_data[s]
+				total_items += vals
 			#print total_items
-		if total_items >= ttl - 10 and total_items <= ttl + 10:		#total cost of items can be + or - 10 USD deviation
+			if total_items >= ttl - 10 and total_items <= ttl + 10:		#total cost of items can be + or - 10 USD deviation
 			#print total_items 
-			list_items.append([total_items, subset])	#stores total of items and corresponding items productId
-	print "The available items for your given cost total are: "
-	if list_items:
-		f = open('output.txt', 'w')
-		for comb in list_items:		#display price and urls for criteria matching items 
-			print comb[0]
-			f.write(str(comb[0]) + '\n')
-			for i in range(cnt):
-				print url_data[(comb[1][i])]
-				f.write(str(url_data[(comb[1][i])]) + '\n')
-		f.close()
-	else:
-		print "No items can be found for your search criteria"
-except requests.ConnectionError as e:
-	print "Cannot connect to Zappos. Try checking internet connection or using different key"
-except:
-	print "Unexpected error occured: ", sys.exc_info()[0]
-	raise
+				list_items.append([total_items, subset])	#stores total of items and corresponding items productId
+		print "The available items for your given cost total are: "
+		if list_items:
+			f = open('output.txt', 'w')
+			for comb in list_items:		#display price and urls for criteria matching items 
+				print comb[0]
+				f.write(str(comb[0]) + '\n')
+				for i in range(cnt):
+					print url_data[(comb[1][i])]
+					f.write(str(url_data[(comb[1][i])]) + '\n')
+			f.close()
+		else:
+			print "No items can be found for your search criteria"
+	except requests.ConnectionError as e:
+		print "Cannot connect to Zappos. Try checking internet connection or using different key"
+	except:
+		print "Unexpected error occured: ", sys.exc_info()[0]
+		raise
+
+
+if __name__ == __main__:
+	import sys; 
+	main();
