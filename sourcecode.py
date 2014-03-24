@@ -5,14 +5,6 @@ import json
 import itertools 
 import sys
 
-category = ['boots', 'clothing', 'shoes']			#Categories of items. Can be taken as input from user
-KEY = '12c3302e49b9b40ab8a222d7cf79a69ad11ffd78'   #KEY for Api access
-
-filtered_data = {}
-url_data = {}
-cnt = input('Enter number of items: ');		#Number of gifts
-ttl = input('Enter total of items: ');		#Total cost of gifts
-
 def get_items(json_data, key):				#Function to parse json 
     if type(json_data) is dict:
         for item_key in json_data:
@@ -36,6 +28,13 @@ def perform_operation(pdId, prc, url):		#Function to store required items info
 
 
 def main():
+	category = ['boots', 'clothing', 'shoes']			#Categories of items. Can be taken as input from user
+	KEY = '12c3302e49b9b40ab8a222d7cf79a69ad11ffd78'   #KEY for Api access
+
+	filtered_data = {}
+	url_data = {}
+	cnt = input('Enter number of items: ');		#Number of gifts
+	ttl = input('Enter total of items: ');		#Total cost of gifts
     	try:
 		for cat in category:
 			url = 'http://api.zappos.com/Search?key=' + KEY + '&term=' + cat
@@ -75,5 +74,4 @@ def main():
 
 
 if __name__ == __main__:
-	import sys; 
 	main();
